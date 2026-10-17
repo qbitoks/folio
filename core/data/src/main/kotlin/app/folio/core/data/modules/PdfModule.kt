@@ -11,13 +11,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Folio ↔ Folio MJ PDF (`pdf-mj/` in qbitoks/folio-modules, GPL-3.0, a separate app).
+ * Folio ↔ Folio Документы (`documents/` in qbitoks/folio-modules, GPL-3.0, a separate app).
  * Folio starts it with [ACTION_OPEN], a read-only `content://` book and the extras below; the module reports
  * the page back through Folio's provider ([AUTHORITY], method [METHOD_POSITION]), which only apps signed
  * with Folio's key may call ([PERMISSION]). Names are stable API: the module has its own copy.
  */
 object PdfModule {
-    const val PACKAGE = "app.folio.pdf.mj"
+    const val PACKAGE = "app.folio.documents"
     const val ACTION_OPEN = "app.folio.action.OPEN_PDF"
     const val EXTRA_BOOK_ID = "app.folio.extra.BOOK_ID"
     /** Zero-based page to open. */
@@ -34,7 +34,7 @@ object PdfModule {
     const val PERMISSION = "app.folio.permission.READING"
 }
 
-/** Opens PDFs in Folio MJ PDF when it is installed and signed with Folio's key. */
+/** Opens PDFs in Folio Документы when it is installed and signed with Folio's key. */
 @Singleton
 class PdfModuleLauncher @Inject constructor(@ApplicationContext private val context: Context) {
     /** Installed and signed like Folio: anything else under that package name never gets a book. */

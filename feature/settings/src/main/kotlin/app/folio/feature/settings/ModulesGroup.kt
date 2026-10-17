@@ -18,7 +18,7 @@ import app.folio.core.designsystem.components.GroupedRow
 import app.folio.core.designsystem.components.IosSwitch
 
 /**
- * «Модули»: book viewers from the modules repository (Folio MJ PDF) with install/update, and whether PDFs
+ * «Модули»: book viewers from the modules repository (Folio Документы) with install/update, and whether PDFs
  * open there. Speech engines stay in the «Голос» sheet. Hidden until the index lists a viewer.
  */
 @Composable

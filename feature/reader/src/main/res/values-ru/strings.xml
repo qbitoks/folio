@@ -345,6 +345,6 @@
     <string name="speech_online_voice">Онлайн-голос</string>
     <string name="speech_selected_voice">Выбранный голос</string>
     <string name="settings_volume_keys">Листать кнопками громкости</string>
-    <string name="pdf_module_offer">Как книга, оглавление и поиск — в Folio MJ PDF</string>
+    <string name="pdf_module_offer">Как книга, оглавление и поиск — в Folio Документы</string>
     <string name="pdf_module_open">Открыть</string>
 </resources>

@@ -88,3 +88,5 @@ keep foundational ones (stack, layout) here however old. Parallel appends merge 
 2026-10-17 | settings | Licenses: hand `OpenSourceList` + assets, checked by a test | no AboutLibraries for ~10 libraries
 2026-10-17 | modules | PDF reader = separate GPL-3.0 app «Folio MJ PDF» (`pdf-mj/` in folio-modules, MJ PDF engine + Folio-style Compose UI) | GPL code stays out of Folio; user chose a module
 2026-10-17 | modules | Viewers in `modules.json` → own `viewers` array; position back via signature-protected `ReadingProvider.call` | 0.9 reads only `modules` and would list them as engines
+2026-10-17 | storage | No migrations or backward compatibility; Room uses destructive fallback (wipes on schema change) | user decision
+2026-10-17 | modules | PDF module renamed «Folio Документы», package `app.folio.documents`, folder `documents/`; old app.folio.pdf.mj is not migrated | user decision

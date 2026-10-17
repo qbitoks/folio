@@ -183,7 +183,7 @@ class SettingsRepository @Inject constructor(@ApplicationContext context: Contex
         store.edit { it[Keys.volumeKeys] = value }
     }
 
-    /** PDFs open in the Folio MJ PDF module when it is installed; off keeps the built-in viewer. */
+    /** PDFs open in the Folio Документы module when it is installed; off keeps the built-in viewer. */
     val pdfInModule: Flow<Boolean> = store.data.map { it[Keys.pdfInModule] ?: true }.distinctUntilChanged()
 
     suspend fun setPdfInModule(value: Boolean) {

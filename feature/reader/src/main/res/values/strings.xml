@@ -335,6 +335,6 @@
     <string name="speech_online_voice">Online voice</string>
     <string name="speech_selected_voice">Selected voice</string>
     <string name="settings_volume_keys">Turn Pages with Volume Buttons</string>
-    <string name="pdf_module_offer">Reflow, contents and search: Folio MJ PDF</string>
+    <string name="pdf_module_offer">Reflow, contents and search: Folio Документы</string>
     <string name="pdf_module_open">Open</string>
 </resources>

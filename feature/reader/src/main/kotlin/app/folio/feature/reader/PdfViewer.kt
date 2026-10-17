@@ -191,7 +191,7 @@ private fun PdfPage(vm: PdfViewModel, index: Int, active: Boolean, onZoomed: (Bo
     }
 }
 
-/** «Folio MJ PDF»: install it from here, then reopen the book in it at the current page. */
+/** «Folio Документы»: install it from here, then reopen the book in it at the current page. */
 @Composable
 private fun ModuleOffer(vm: PdfViewModel, page: () -> Int, onClose: () -> Unit) {
     val offer by vm.offer.collectAsStateWithLifecycle()

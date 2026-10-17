@@ -67,7 +67,7 @@ class ModuleInstaller @Inject constructor(@ApplicationContext private val contex
     val modules: StateFlow<List<ModuleApk>> = _modules.asStateFlow()
     /** Speech engines among [modules]. */
     val engines: StateFlow<List<ModuleApk>> = kind(ModuleKind.Engine)
-    /** Book viewers among [modules] (Folio MJ PDF). */
+    /** Book viewers among [modules] (Folio Документы). */
     val viewers: StateFlow<List<ModuleApk>> = kind(ModuleKind.Viewer)
 
     private val _appUpdate = MutableStateFlow<ModuleApk?>(null)

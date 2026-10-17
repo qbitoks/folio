@@ -23,7 +23,7 @@ class ModuleIndexCodecTest {
 
     @Test fun viewersComeFromTheirOwnArray() {
         val list = ModuleIndexCodec.modules("""{"version":1,"modules":[],"viewers":[
-            {"id":"pdf-mj","package":"app.folio.pdf.mj","title":"Folio MJ PDF","versionCode":1,"versionName":"1.0.0",
+            {"id":"documents","package":"app.folio.documents","title":"Folio Документы","versionCode":1,"versionName":"1.0.0",
              "url":"https://example.org/m.apk","sha256":"$sha"}]}""")!!
         assertEquals(listOf(ModuleKind.Viewer), list.map { it.kind })
         assertEquals(ModuleKind.Engine, ModuleIndexCodec.modules("""{"version":1,"modules":[

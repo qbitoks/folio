@@ -39,7 +39,7 @@ sealed interface ReaderKind {
     data object Loading : ReaderKind
     data object Reflow : ReaderKind
     data class Pdf(val title: String, val pageCount: Int, val startPage: Int) : ReaderKind
-    /** A PDF handed to the Folio MJ PDF module: the route starts [intent] and closes. */
+    /** A PDF handed to the Folio Документы module: the route starts [intent] and closes. */
     data class External(val intent: Intent) : ReaderKind
     data object Broken : ReaderKind
 }
@@ -104,7 +104,7 @@ class PdfViewModel @Inject constructor(
         }
     }
 
-    /** The Folio MJ PDF module, when published and not installed yet: the viewer offers it. */
+    /** The Folio Документы module, when published and not installed yet: the viewer offers it. */
     val offer: StateFlow<ModuleApk?> = combine(installer.viewers, installer.installed) { viewers, installed ->
         viewers.firstOrNull { it.packageName == PdfModule.PACKAGE && it.packageName !in installed }
     }.stateIn(viewModelScope, SharingStarted.Eagerly, null)

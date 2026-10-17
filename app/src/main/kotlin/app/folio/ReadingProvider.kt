@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 /**
- * Takes reading positions from Folio MJ PDF ([PdfModule]). `call` skips the manifest's permission check,
+ * Takes reading positions from Folio Документы ([PdfModule]). `call` skips the manifest's permission check,
  * so it checks [PdfModule.PERMISSION] (signature level: only apps signed with Folio's key) itself.
  */
 class ReadingProvider : ContentProvider() {

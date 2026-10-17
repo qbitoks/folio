@@ -30,6 +30,6 @@
     <string name="settings_close">Закрыть</string>
     <string name="settings_modules">Модули</string>
     <string name="settings_module_update">Обновить до %1$s</string>
-    <string name="settings_pdf_in_module">Открывать PDF в Folio MJ PDF</string>
+    <string name="settings_pdf_in_module">Открывать PDF в Folio Документы</string>
     <string name="settings_module_install">Установить</string>
 </resources>

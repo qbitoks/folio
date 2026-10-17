@@ -16,5 +16,5 @@ object DataModule {
     @Provides
     @Singleton
     fun database(@ApplicationContext context: Context): FolioDatabase =
-        Room.databaseBuilder(context, FolioDatabase::class.java, "folio.db").build()
+        Room.databaseBuilder(context, FolioDatabase::class.java, "folio.db").fallbackToDestructiveMigration(dropAllTables = true).build()
 }

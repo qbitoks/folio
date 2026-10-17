@@ -2,14 +2,15 @@
 
 Trigger: changing import, Room entities/DAOs, `BookFiles`, settings DataStore keys, `Position` encoding,
 catalog prefs.
-Why: users upgrade with `install -r`; books, positions, highlights and collections must survive.
+Why: one place for the on-disk layout. No migrations and no compatibility with earlier versions (user decision):
+an update may wipe saved data.
 
 ## Layout (app-private, see `core/data/.../library/BookFiles.kt`)
 - `files/books/<sha1>.<ext>` — original file (PDF: `.pdf`, no `cache/books` entry; position = `Position(page)`); book id = SHA-1 of its bytes. `files/covers/<id>.jpg`.
 - `cache/books/<id>/book.bin` + `res/` — parsed model; rebuilt from the original if the cache is cleared.
 - Room `folio.db` (`FolioDatabase`, v2): books, collections, bookmarks, highlights, sessions, search
-  history, `downloads`. Schemas in `core/data/schemas/`; v1 upgrades are unsupported (user decision).
-  Keep the current v2 schema; do not add destructive fallback or restore removed migrations.
+  history, `downloads`. Schemas in `core/data/schemas/`. Bump the version on any schema change and write
+  no migration: `fallbackToDestructiveMigration(dropAllTables = true)` wipes the database on upgrade.
 - `files/downloads/<sha1 of link>.part` — catalog download in progress; resumed with HTTP Range, deleted
   after import. `cache/catalog-covers/<sha1 of url>` — OPDS cover thumbnails (safe to clear).
 - DataStore `settings`: reader/library prefs; `app_appearance` (app-wide), `book_appearance_<book id>`
@@ -45,6 +46,5 @@ Why: users upgrade with `install -r`; books, positions, highlights and collectio
   Removing an own catalog removes its row; presets keep it. `allowBackup` stays false (the key doesn't travel).
 
 ## Changing any of this
-- Preserve books and database contents; unsupported old schemas must fail instead of silently resetting data.
-- `Position.encode()` format is persisted: keep old strings decodable.
-- Changing applicationId or APK signature needs a separate decision.
+- No migrations, no reading of old formats: change keys, files, positions, IDs and schemas freely; drop old data.
+- Keep this file in sync with the layout. Changing Folio's applicationId or APK signature needs a separate decision.

@@ -89,7 +89,7 @@ Commands (PowerShell, repo root; Linux/macOS: `bash ./gradlew`, see `scripts/AGE
 
 ## Project rules
 - `core/model`, `core/format`, `core/opds` stay pure JVM; `core/layout` uses Android text/graphics, no Compose.
-- Keep saved data compatible (Room schema, files layout, positions, book IDs): `.agents/rules/storage.md`.
+- No migrations, no compatibility with earlier versions; saved data may be wiped on update: `.agents/rules/storage.md`.
 - HTTPS only, redirects included. Limits stay: book/unpacked FB2 50 MiB, OPDS feed 5 MiB, FB2 depth 128,
   no DTD or external XML entities. Don't relax them to make a sample pass.
 - Coroutine cancellation is not a user error. No blocking I/O on the UI thread.
