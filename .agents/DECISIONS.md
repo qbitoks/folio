@@ -90,3 +90,4 @@ keep foundational ones (stack, layout) here however old. Parallel appends merge 
 2026-10-17 | modules | Viewers in `modules.json` → own `viewers` array; position back via signature-protected `ReadingProvider.call` | 0.9 reads only `modules` and would list them as engines
 2026-10-17 | storage | No migrations or backward compatibility; Room uses destructive fallback (wipes on schema change) | user decision
 2026-10-17 | modules | PDF module renamed «Folio Документы», package `app.folio.documents`, folder `documents/`; old app.folio.pdf.mj is not migrated | user decision
+2026-10-17 | modules | «Скан как книга»: k2pdfopt + Leptonica as prebuilt `.so`, no OCR; module → AGPL-3.0 | KOReader as a module rejected (Lua UI)
