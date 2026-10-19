@@ -53,8 +53,8 @@ class OpdsParserTest {
         val links = listOf("txt+zip", "rtf+zip", "html+zip", "x-mobipocket-ebook", "epub+zip", "fb2+zip", "pdf", "djvu")
             .joinToString("") { """<link href="/b/1/${it.substringBefore('+')}" rel="http://opds-spec.org/acquisition/open-access" type="application/$it"/>""" }
         val book = OpdsParser.parse("""<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>Книга</title>$links</entry></feed>""", "https://books.example/opds").entries.single()
-        assertEquals(listOf("EPUB", "FB2", "MOBI", "RTF", "HTML", "TXT", "PDF"), book.downloads.keys.toList())
-        assertEquals(listOf("DJVU"), book.otherFormats)
+        assertEquals(listOf("EPUB", "FB2", "MOBI", "RTF", "HTML", "TXT", "PDF", "DJVU"), book.downloads.keys.toList())
+        assertTrue(book.otherFormats.isEmpty())
     }
     @Test fun authorEntryNavigatesToItsMainLinkNotFacets() {
         val page = OpdsParser.parse("""<feed xmlns="http://www.w3.org/2005/Atom"><entry><title>Лем Станислав</title><content type="text">120 книг</content><link href="/opds/authorsequences/1" rel="http://www.feedbooks.com/opds/facet" type="application/atom+xml;profile=opds-catalog" title="Книги автора по сериям"/><link href="/opds/author/1" type="application/atom+xml;profile=opds-catalog"/><link href="/ia/1/lem.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/></entry></feed>""", "https://books.example/opds/search")

@@ -57,6 +57,7 @@ object BookSharing {
         "mobi" -> "application/x-mobipocket-ebook"
         "docx" -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         "pdf" -> "application/pdf"
+        "djvu" -> "image/vnd.djvu"
         "txt" -> "text/plain"
         "html" -> "text/html"
         "rtf" -> "application/rtf"

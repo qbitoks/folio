@@ -10,6 +10,7 @@ import android.util.LruCache
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.folio.core.data.db.BookEntity
 import app.folio.core.data.library.LibraryRepository
 import app.folio.core.data.modules.InstallState
 import app.folio.core.data.modules.ModuleApk
@@ -39,8 +40,10 @@ sealed interface ReaderKind {
     data object Loading : ReaderKind
     data object Reflow : ReaderKind
     data class Pdf(val title: String, val pageCount: Int, val startPage: Int) : ReaderKind
-    /** A PDF handed to the Folio Документы module: the route starts [intent] and closes. */
+    /** A PDF or DjVu handed to the Folio Документы module: the route starts [intent] and closes. */
     data class External(val intent: Intent) : ReaderKind
+    /** A DjVu without the module: Folio can't show it, the viewer offers the module. */
+    data class NeedsModule(val title: String) : ReaderKind
     data object Broken : ReaderKind
 }
 
@@ -71,6 +74,16 @@ class PdfViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val entity = library.book(bookId).first()
+            if (entity?.format == BookFormat.Djvu.name) {
+                if (module.available()) {
+                    _kind.value = ReaderKind.External(moduleIntent(entity, Position.decode(entity.position)?.chapter ?: 0))
+                    library.markOpened(bookId)
+                } else {
+                    _kind.value = ReaderKind.NeedsModule(entity.displayTitle)
+                    refreshModules()
+                }
+                return@launch
+            }
             if (entity?.format != BookFormat.Pdf.name) {
                 _kind.value = ReaderKind.Reflow
                 return@launch
@@ -94,13 +107,17 @@ class PdfViewModel @Inject constructor(
                 }
             }.getOrElse { ReaderKind.Broken }
             library.markOpened(bookId)
-            try {
-                installer.refresh()
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: Exception) {
-                Log.w("PdfViewModel", "Modules index not refreshed", e)
-            }
+            refreshModules()
+        }
+    }
+
+    private suspend fun refreshModules() {
+        try {
+            installer.refresh()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w("PdfViewModel", "Modules index not refreshed", e)
         }
     }
 
@@ -120,8 +137,14 @@ class PdfViewModel @Inject constructor(
     /** Opens the book in the module at [page]. */
     suspend fun moduleIntent(page: Int): Intent? {
         val entity = library.book(bookId).first() ?: return null
+        return moduleIntent(entity, page)
+    }
+
+    private suspend fun moduleIntent(entity: BookEntity, page: Int): Intent {
         val appearance = settings.appAppearance.first().name.lowercase()
-        return module.intent(bookId, library.originalFile(bookId, BookFormat.Pdf), page, entity.displayTitle, appearance)
+        val djvu = entity.format == BookFormat.Djvu.name
+        val file = library.originalFile(bookId, if (djvu) BookFormat.Djvu else BookFormat.Pdf)
+        return module.intent(bookId, file, page, entity.displayTitle, appearance, djvu)
     }
 
     /** Page [index] rendered [width] px wide on white; null if the document is closed. */

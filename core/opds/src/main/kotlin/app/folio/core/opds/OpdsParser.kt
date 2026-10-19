@@ -60,9 +60,11 @@ object OpdsParser {
         "txt" to "TXT",
         "text/plain" to "TXT",
         "pdf" to "PDF",
+        // image/vnd.djvu, image/x-djvu, application/djvu: opened by the Folio Документы module.
+        "djvu" to "DJVU",
     )
-    /** Download order: EPUB and FB2 are real books (the catalog's format goes first in the sheet), then conversions, PDF last. */
-    private val preference = listOf("EPUB", "FB2", "MOBI", "DOCX", "RTF", "HTML", "TXT", "PDF")
+    /** Download order: EPUB and FB2 are real books (the catalog's format goes first in the sheet), then conversions, PDF and DJVU last. */
+    private val preference = listOf("EPUB", "FB2", "MOBI", "DOCX", "RTF", "HTML", "TXT", "PDF", "DJVU")
     private val coverRels = listOf(
         "http://opds-spec.org/image/thumbnail",
         "http://opds-spec.org/thumbnail",

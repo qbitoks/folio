@@ -4,7 +4,7 @@
 ## Entry points
 - Resolve symbols below in `feature/reader/src/main/kotlin/app/folio/feature/reader/`; search exact names first.
 - `ReaderRoute` picks `PdfViewer` (PDF) or `ReaderScreen` — appearance, ink, lifecycle; `ReaderControls` — local UI state.
-- PDF + Folio Документы module: `ReaderKind.External` starts it (`core/data/.../PdfModule.kt`, positions via `app/.../ReadingProvider.kt`); else `ModuleOffer`.
+- PDF/DjVu → Folio Документы: `ReaderKind.External` (`core/data/.../PdfModule.kt`, `app/.../ReadingProvider.kt`); else `ModuleOffer`, DjVu `NeedsModule`.
 - `ReaderSurface` — viewport, insets, guide geometry and layer order; `ReaderPages` — paged/scroll rendering.
 - `readerInteractions` — tap targets, tap zones, long-press selection; `ReaderSelectionOverlays` — selection, notes, palette.
 - `ReaderChrome` — overlays and page labels; `ReaderToolbar` / `ReaderNavigationPanel` — controls; `ReaderSheets` — sheets.

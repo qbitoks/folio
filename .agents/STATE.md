@@ -7,7 +7,7 @@ status: active
 - Work from the user's task; follow-ups below need an explicit task, not autonomous implementation.
 
 ## Phone verification before distribution
-- 0.11.0: PDF module → «Folio Документы» (`app.folio.documents`), old one uninstalled by hand; no DB migrations.
+- 0.12.0: DjVu (import, catalogs) opens only in Folio Документы 1.2.0, untried on a phone. 0.11.0: module renamed.
 - 0.10.0: «Настройки → Модули» installs Folio Документы; PDFs open in it (pages, «Как книга», contents, search, themes,
   volume keys) and the page comes back to Folio. Emulator-checked with a generated PDF; not on a phone or a real scan.
 - 0.9.0: page keys (volume off while reading aloud), download notifications + «Читать», «Лицензии»,

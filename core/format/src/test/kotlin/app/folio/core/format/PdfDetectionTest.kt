@@ -28,6 +28,20 @@ class PdfDetectionTest {
     }
 
     @Test
+    fun djvuByMagic() {
+        val bytes = "AT&TFORM".toByteArray() + byteArrayOf(0, 0, 0x10, 0) + "DJVMDIRM".toByteArray() + ByteArray(64)
+        assertEquals(BookFormat.Djvu, detect(bytes))
+    }
+
+    @Test
+    fun unzipsDjvuFromArchive() {
+        val djvu = "AT&TFORM".toByteArray() + ByteArray(1000) { it.toByte() }
+        val target = tmp.newFile()
+        assertTrue(BookParser.unzipPdf(zip("book.djvu" to djvu), target))
+        assertEquals(BookFormat.Djvu, BookParser.detect(target))
+    }
+
+    @Test
     fun textMentioningPdfStaysText() {
         assertEquals(BookFormat.Text, detect("Save it as %PDF later.\nSecond line.".toByteArray()))
     }

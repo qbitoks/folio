@@ -53,6 +53,8 @@
                 <data android:mimeType="application/rtf" />
                 <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
                 <data android:mimeType="application/pdf" />
+                <data android:mimeType="image/vnd.djvu" />
+                <data android:mimeType="image/x-djvu" />
             </intent-filter>
             <!-- "Share" sheet. -->
             <intent-filter>
@@ -70,6 +72,8 @@
                 <data android:mimeType="application/rtf" />
                 <data android:mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
                 <data android:mimeType="application/pdf" />
+                <data android:mimeType="image/vnd.djvu" />
+                <data android:mimeType="image/x-djvu" />
             </intent-filter>
         </activity>
 

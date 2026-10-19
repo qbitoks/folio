@@ -284,6 +284,7 @@
     <string name="line_group_separation">Separation from text</string>
     <string name="line_group_behavior">Behaviour</string>
     <string name="pdf_page">%1$d of %2$d</string>
+    <string name="djvu_needs_module">DjVu books open in Folio Документы.</string>
     <string name="pdf_broken">This PDF can\'t be opened: it may be encrypted or damaged.</string>
     <string name="speech_listen">Read Aloud</string>
     <string name="speech_play">Play</string>

@@ -106,7 +106,7 @@ class LibraryRepository @Inject constructor(
             if (!tmp.renameTo(original)) {
                 tmp.copyTo(original, overwrite = true)
             }
-            if (format == BookFormat.Pdf) return importPdf(id, original, uri, sourceUri, known)
+            if (format == BookFormat.Pdf || format == BookFormat.Djvu) return importFixed(id, format, original, uri, sourceUri, known)
             val book = try {
                 parseAndCache(id, original, format)
             } catch (e: Exception) {
@@ -143,9 +143,12 @@ class LibraryRepository @Inject constructor(
         }
     }
 
-    /** PDF keeps its fixed pages: no parsed cache, the first page becomes the cover. */
-    private suspend fun importPdf(id: String, original: File, uri: Uri, sourceUri: String?, known: Known): ImportResult {
-        val hasCover = try {
+    /**
+     * PDF and DjVu keep their fixed pages: no parsed cache. A PDF's first page becomes the cover; Folio can't render
+     * DjVu (only the Folio Документы module does), so it gets the generated cover.
+     */
+    private suspend fun importFixed(id: String, format: BookFormat, original: File, uri: Uri, sourceUri: String?, known: Known): ImportResult {
+        val hasCover = if (format != BookFormat.Pdf) false else try {
             PdfCover.render(original, COVER_WIDTH)?.let { bitmap ->
                 files.cover(id).outputStream().use { bitmap.compress(Bitmap.CompressFormat.JPEG, 88, it) }
                 true
@@ -158,12 +161,12 @@ class LibraryRepository @Inject constructor(
         books.insert(
             BookEntity(
                 id = id,
-                title = known.title?.takeIf { it.isNotBlank() } ?: displayName(uri)?.substringBeforeLast('.') ?: "PDF",
+                title = known.title?.takeIf { it.isNotBlank() } ?: displayName(uri)?.substringBeforeLast('.') ?: format.name.uppercase(),
                 authors = known.author.orEmpty(),
                 series = null,
                 seriesIndex = null,
                 language = null,
-                format = BookFormat.Pdf.name,
+                format = format.name,
                 fileSize = original.length(),
                 sourceUri = sourceUri,
                 hasCover = hasCover,

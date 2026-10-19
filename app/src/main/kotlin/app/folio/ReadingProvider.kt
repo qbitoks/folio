@@ -43,7 +43,7 @@ class ReadingProvider : ContentProvider() {
         // A binder thread, never the main one: blocking here is fine.
         runBlocking {
             val book = library.book(arg).first() ?: return@runBlocking
-            if (book.format != BookFormat.Pdf.name) return@runBlocking
+            if (book.format != BookFormat.Pdf.name && book.format != BookFormat.Djvu.name) return@runBlocking
             library.savePosition(arg, Position(page), (page + 1f) / pages)
         }
         return Bundle.EMPTY

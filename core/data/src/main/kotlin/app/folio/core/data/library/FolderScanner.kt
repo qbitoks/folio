@@ -73,7 +73,7 @@ class FolderScanner @Inject constructor(
     private companion object {
         const val MAX_DEPTH = 4
         val extensions = listOf(
-            ".epub", ".fb2", ".fb2.zip", ".mobi", ".azw", ".azw3", ".prc", ".rtf", ".docx", ".pdf", ".htm", ".html", ".xhtml",
+            ".epub", ".fb2", ".fb2.zip", ".mobi", ".azw", ".azw3", ".prc", ".rtf", ".docx", ".pdf", ".djvu", ".djv", ".htm", ".html", ".xhtml",
             ".txt", ".text", ".md", ".markdown", ".rst", ".log", ".csv", ".tsv",
             ".conf", ".cfg", ".ini", ".properties", ".toml", ".yaml", ".yml", ".json", ".xml",
         )

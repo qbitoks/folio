@@ -91,3 +91,5 @@ keep foundational ones (stack, layout) here however old. Parallel appends merge 
 2026-10-17 | storage | No migrations or backward compatibility; Room uses destructive fallback (wipes on schema change) | user decision
 2026-10-17 | modules | PDF module renamed «Folio Документы», package `app.folio.documents`, folder `documents/`; old app.folio.pdf.mj is not migrated | user decision
 2026-10-17 | modules | «Скан как книга»: k2pdfopt + Leptonica as prebuilt `.so`, no OCR; module → AGPL-3.0 | KOReader as a module rejected (Lua UI)
+2026-10-19 | modules | DJVU in Folio Документы: DjVuLibre 3.5.28 `.so` + own JNI; overrides 2026-10-16 «DJVU out» (module is AGPL) | user request; MuPDF has no DjVu
+2026-10-19 | format | DjVu is imported (magic `AT&TFORM`) with the generated cover and opens only in the module; without it the viewer offers the install | Folio has no DjVu renderer

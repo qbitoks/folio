@@ -292,6 +292,7 @@
     <string name="line_group_separation">Отделение от текста</string>
     <string name="line_group_behavior">Поведение</string>
     <string name="pdf_page">%1$d из %2$d</string>
+    <string name="djvu_needs_module">Книги DjVu открываются в модуле Folio Документы.</string>
     <string name="pdf_broken">Этот PDF не открывается: возможно, он защищён паролем или повреждён.</string>
     <string name="speech_listen">Слушать</string>
     <string name="speech_play">Продолжить</string>

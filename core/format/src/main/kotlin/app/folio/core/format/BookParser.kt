@@ -31,6 +31,8 @@ enum class BookFormat(val extension: String) {
     Docx("docx"),
     /** Fixed pages: never parsed into [Book]; the reader shows it with its own page viewer. */
     Pdf("pdf"),
+    /** Fixed page images: never parsed; only the Folio Документы module shows it. */
+    Djvu("djvu"),
 }
 
 class UnsupportedBookException(message: String) : IOException(message)
@@ -60,16 +62,19 @@ object BookParser {
         BookFormat.Mobi -> MobiParser(read(file), resources).parse()
         BookFormat.Docx -> DocxParser(file, resources).parse()
         BookFormat.Pdf -> throw UnsupportedBookException("PDF has fixed pages and is not reflowed")
+        BookFormat.Djvu -> throw UnsupportedBookException("DjVu has fixed pages and is not reflowed")
     }
 
     /**
-     * Copies the PDF out of a single-book archive (LitRes serves `a6.pdf` zipped) into [target], within
-     * the 50 MiB limit. False when [file] has no `.pdf` inside; call it only where [detect] found nothing.
+     * Copies the PDF or DjVu out of a single-book archive (LitRes serves `a6.pdf` zipped, Flibusta `djvu.zip`) into
+     * [target], within the 50 MiB limit. False when [file] has neither inside; call it only where [detect] found nothing.
      */
+    private val fixedExtensions = listOf(".pdf", ".djvu", ".djv")
+
     fun unzipPdf(file: File, target: File): Boolean {
         val zip = try { ZipFile(file) } catch (e: IOException) { return false }
         return zip.use {
-            val entry = zip.entries().asSequence().firstOrNull { !it.isDirectory && it.name.endsWith(".pdf", ignoreCase = true) }
+            val entry = zip.entries().asSequence().firstOrNull { !it.isDirectory && fixedExtensions.any { ext -> it.name.endsWith(ext, ignoreCase = true) } }
                 ?: return false
             zip.getInputStream(entry).use { src ->
                 target.outputStream().use { out ->
@@ -144,6 +149,8 @@ object BookParser {
             }
         }
         if (MobiParser.matches(head, read)) return BookFormat.Mobi
+        // DjVu: «AT&T» then an IFF «FORM» chunk.
+        if (read >= 8 && String(head, 0, 8, Charsets.ISO_8859_1) == "AT&TFORM") return BookFormat.Djvu
         // Readers accept «%PDF-» anywhere in the first KiB (some generators prepend junk).
         if (pdfHeader.containsMatchIn(String(head, 0, minOf(read, 1024), Charsets.ISO_8859_1))) return BookFormat.Pdf
         val text = String(head, 0, minOf(read, 512), Charsets.ISO_8859_1)

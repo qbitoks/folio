@@ -76,10 +76,15 @@ internal fun PdfViewer(vm: PdfViewModel, kind: ReaderKind, onClose: () -> Unit) 
     BackHandler(enabled = chrome) { chrome = false }
     Box(Modifier.fillMaxSize().background(Color.Black)) {
         if (kind !is ReaderKind.Pdf) {
-            Text(
-                stringResource(R.string.pdf_broken), color = Color.White, textAlign = TextAlign.Center,
-                modifier = Modifier.align(Alignment.Center).padding(32.dp),
-            )
+            Column(Modifier.align(Alignment.Center).padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                val djvu = kind is ReaderKind.NeedsModule
+                Text(
+                    stringResource(if (djvu) R.string.djvu_needs_module else R.string.pdf_broken), color = Color.White,
+                    textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 16.dp),
+                )
+                // DjVu opens only in the module: offer it right here.
+                if (djvu) ModuleOffer(vm, page = { 0 }, onClose = onClose)
+            }
             Box(Modifier.align(Alignment.TopEnd).safeDrawingPadding().padding(12.dp)) {
                 CircleButton(Icons.Rounded.Close, stringResource(R.string.reader_close), onClose)
             }

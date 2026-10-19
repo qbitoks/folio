@@ -34,7 +34,7 @@ object PdfModule {
     const val PERMISSION = "app.folio.permission.READING"
 }
 
-/** Opens PDFs in Folio Документы when it is installed and signed with Folio's key. */
+/** Opens PDF and DjVu books in Folio Документы when it is installed and signed with Folio's key. */
 @Singleton
 class PdfModuleLauncher @Inject constructor(@ApplicationContext private val context: Context) {
     /** Installed and signed like Folio: anything else under that package name never gets a book. */
@@ -43,11 +43,12 @@ class PdfModuleLauncher @Inject constructor(@ApplicationContext private val cont
         context.packageManager.checkSignatures(context.packageName, PdfModule.PACKAGE) == PackageManager.SIGNATURE_MATCH
     }.getOrDefault(false)
 
-    fun intent(bookId: String, file: File, page: Int, title: String, appearance: String): Intent {
+    /** [file] is a PDF, or a DjVu when [djvu]: the module tells them apart by the MIME type. */
+    fun intent(bookId: String, file: File, page: Int, title: String, appearance: String, djvu: Boolean = false): Intent {
         val uri = FileProvider.getUriForFile(context, context.packageName + ".files", file)
         return Intent(PdfModule.ACTION_OPEN)
             .setPackage(PdfModule.PACKAGE)
-            .setDataAndType(uri, "application/pdf")
+            .setDataAndType(uri, if (djvu) "image/vnd.djvu" else "application/pdf")
             .putExtra(PdfModule.EXTRA_BOOK_ID, bookId)
             .putExtra(PdfModule.EXTRA_PAGE, page)
             .putExtra(PdfModule.EXTRA_TITLE, title)
